@@ -8,6 +8,9 @@ public class NPRController {
 		super();
 	}
 	
+	int valor1;
+	int valor2;
+	
 	Pilha p = new Pilha();
 	
 	public void insereValor(Pilha p, int valor) {
@@ -16,57 +19,31 @@ public class NPRController {
 	}
 	
 	public int npr(Pilha p, String op) throws Exception {
-		char c ;
-		int arg1,arg2,res;
+		int res = 0;
 		
-		if(op.length() < 3) {
-			System.err.println("Não há elementos suficientes para fazer a operação!");
-		}
-		else {
-        for (int i=0; i<op.length(); i++) {
-             c = op.charAt(i);
-            if (Character.isDigit(c))
-                insereValor(p,Character.digit(c,10));
-            else if(c=='+') {
-                arg1 = p.top(); p.pop();
-                arg2 = p.top(); p.pop();
-                insereValor(p,arg1+arg2);
-            }
-            else if(c=='*') {
-                arg1 = p.top(); p.pop();
-                arg2 = p.top(); p.pop();
-                insereValor(p,arg1*arg2);
-            }
-            else if(c=='-') {
-                arg1 = p.top(); p.pop();
-                arg2 = p.top(); p.pop();
-                if(arg1 > arg2) {
-                	insereValor(p,arg1-arg2);
-                  }
-                else {
-                   	insereValor(p,arg2-arg1);
-                  }
-            }
-            else if(c=='/') {
-                arg1 = p.top(); p.pop();
-                arg2 = p.top(); p.pop();
-                if(arg1 > arg2) {
-                	insereValor(p,arg1/arg2);
-                }
-                else {
-                	insereValor(p,arg2/arg1);
-                }
-            }
-            else if(c=='^') {
-                arg1 = p.top(); p.pop();
-                arg2 = p.top(); p.pop();
-                insereValor(p,(int) Math.pow(arg1,arg2));
-            }
+		if(p.size() > 1) {
+			valor1 = p.pop();
+			valor2 = p.pop();
+		
+		if(op.equals("+")) {
+                res = valor1 + valor2;
         }
+		if(op.equals("*")) {
+            res = valor1 * valor2;
 		}
-        res = p.top();
-        res = p.pop();
-        insereValor(p,res);
+		if(op.equals("-")) {
+            res = valor1 - valor2;
+		}
+		if(op.equals("/")) {
+            res = valor1 / valor2;
+		}
+		if(op.equals("^")) {
+		     res = (int) Math.pow(valor1, valor2);
+        }
+        p.push(res);
         return res;
+	}else {
+		throw new Exception("Valores insuficientes!");
 	}
+}
 }
